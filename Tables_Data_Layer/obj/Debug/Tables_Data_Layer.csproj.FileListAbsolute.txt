@@ -1,0 +1,9 @@
+C:\Users\UNIX\source\repos\Tables_Data_Layer\bin\Debug\Tables_Data_Layer.dll
+C:\Users\UNIX\source\repos\Tables_Data_Layer\bin\Debug\Tables_Data_Layer.pdb
+C:\Users\UNIX\source\repos\Tables_Data_Layer\bin\Debug\General Settings.dll
+C:\Users\UNIX\source\repos\Tables_Data_Layer\bin\Debug\General Settings.pdb
+C:\Users\UNIX\source\repos\Tables_Data_Layer\obj\Debug\Tables_Data_Layer.csproj.AssemblyReference.cache
+C:\Users\UNIX\source\repos\Tables_Data_Layer\obj\Debug\Tables_Data_Layer.csproj.CoreCompileInputs.cache
+C:\Users\UNIX\source\repos\Tables_Data_Layer\obj\Debug\Tables_Data_Layer.csproj.CopyComplete
+C:\Users\UNIX\source\repos\Tables_Data_Layer\obj\Debug\Tables_Data_Layer.dll
+C:\Users\UNIX\source\repos\Tables_Data_Layer\obj\Debug\Tables_Data_Layer.pdb

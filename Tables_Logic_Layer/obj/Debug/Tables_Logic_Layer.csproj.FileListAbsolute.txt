@@ -1,0 +1,11 @@
+C:\Users\UNIX\source\repos\Tables_Logic_Layer\bin\Debug\Tables_Logic_Layer.dll
+C:\Users\UNIX\source\repos\Tables_Logic_Layer\bin\Debug\Tables_Logic_Layer.pdb
+C:\Users\UNIX\source\repos\Tables_Logic_Layer\bin\Debug\Tables_Data_Layer.dll
+C:\Users\UNIX\source\repos\Tables_Logic_Layer\bin\Debug\General Settings.dll
+C:\Users\UNIX\source\repos\Tables_Logic_Layer\bin\Debug\Tables_Data_Layer.pdb
+C:\Users\UNIX\source\repos\Tables_Logic_Layer\bin\Debug\General Settings.pdb
+C:\Users\UNIX\source\repos\Tables_Logic_Layer\obj\Debug\Tables_Logic_Layer.csproj.AssemblyReference.cache
+C:\Users\UNIX\source\repos\Tables_Logic_Layer\obj\Debug\Tables_Logic_Layer.csproj.CoreCompileInputs.cache
+C:\Users\UNIX\source\repos\Tables_Logic_Layer\obj\Debug\Tables_Logic_Layer.csproj.CopyComplete
+C:\Users\UNIX\source\repos\Tables_Logic_Layer\obj\Debug\Tables_Logic_Layer.dll
+C:\Users\UNIX\source\repos\Tables_Logic_Layer\obj\Debug\Tables_Logic_Layer.pdb

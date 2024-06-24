@@ -1,0 +1,6 @@
+C:\Users\UNIX\source\repos\General Settings\bin\Debug\General Settings.dll
+C:\Users\UNIX\source\repos\General Settings\bin\Debug\General Settings.pdb
+C:\Users\UNIX\source\repos\General Settings\obj\Debug\General Settings.csproj.AssemblyReference.cache
+C:\Users\UNIX\source\repos\General Settings\obj\Debug\General Settings.csproj.CoreCompileInputs.cache
+C:\Users\UNIX\source\repos\General Settings\obj\Debug\General Settings.dll
+C:\Users\UNIX\source\repos\General Settings\obj\Debug\General Settings.pdb
