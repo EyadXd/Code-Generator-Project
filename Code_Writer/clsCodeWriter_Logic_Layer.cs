@@ -54,13 +54,19 @@ namespace Code_Writer
 
             Code += @"public enum enMode { UpdateMode, AddNewMode };
 
-                      public enMode Mode { set; get; }
+                      public enMode Mode { private set; get; }
                       ";
 
             foreach (clsColumn column in table.Columns)
             {
                 string DataType = clsDataManagement.Convert_DataType_From_SQL_To_Csharp(column.DATA_TYPE);
+
+
+                if(!column.IsPrimaryKey)
                 Code += $@"public {DataType} {column.COLUMN_NAME} {{ set; get; }}
+                          ";
+                else
+                    Code += $@"public {DataType} {column.COLUMN_NAME} {{ private set; get; }}
                           ";
             }
 
@@ -317,7 +323,7 @@ namespace Code_Writer
             string PrimaryColumnName = table.Columns.First(c => c.IsPrimaryKey).COLUMN_NAME;
             string SendVarsToAddNew = _Write_SendVarsToAddNew(table);
 
-            Code = $@" public int _AddNew()
+            Code = $@" private int _AddNew()
         {{
            return clsData_{table.TableName}.AddNew({SendVarsToAddNew});
         }}";
@@ -342,7 +348,7 @@ namespace Code_Writer
             string Code = "";
             string SendVars = _Write_SendVarsToUpdate(table);
 
-            Code = $@" public int _Update()
+            Code = $@" private int _Update()
         {{
             return (clsData_{table.TableName}.Update({SendVars}));
         }}";
@@ -352,7 +358,7 @@ namespace Code_Writer
             
 
         // Save Method 
-        static public string Write_Save()
+        static public string Write_Save(clsColumn PrimaryKeyColumn)
         {
             string Code = "";
 
@@ -361,7 +367,8 @@ namespace Code_Writer
             switch (Mode)
             {{
                 case enMode.AddNewMode:
-                   if (_AddNew()!=-1)
+                    this.{PrimaryKeyColumn.COLUMN_NAME} = _AddNew();
+                   if (this.{PrimaryKeyColumn.COLUMN_NAME}!=-1)
                    {{
                         this.Mode = enMode.UpdateMode;
                         return true;
@@ -406,7 +413,7 @@ namespace Code_Writer
             if (table.AddNew && table.Update)
             {
                 Code += _Write_Comment("Save");
-                Code += Write_Save();
+                Code += Write_Save(table.Columns.First(c=>c.IsPrimaryKey));
                 Code += @"
 
 
