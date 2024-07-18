@@ -11,3 +11,16 @@ C:\Users\UNIX\source\repos\Database_Creator\obj\Debug\Database_Creator.csproj.Co
 C:\Users\UNIX\source\repos\Database_Creator\obj\Debug\Database_Creator.csproj.CopyComplete
 C:\Users\UNIX\source\repos\Database_Creator\obj\Debug\Database_Creator.dll
 C:\Users\UNIX\source\repos\Database_Creator\obj\Debug\Database_Creator.pdb
+C:\Users\UNIX\source\repos\Code Generator Full Project\Database_Creator\bin\Debug\Database_Creator.dll
+C:\Users\UNIX\source\repos\Code Generator Full Project\Database_Creator\bin\Debug\Database_Creator.pdb
+C:\Users\UNIX\source\repos\Code Generator Full Project\Database_Creator\bin\Debug\General Settings.dll
+C:\Users\UNIX\source\repos\Code Generator Full Project\Database_Creator\bin\Debug\Tables_Logic_Layer.dll
+C:\Users\UNIX\source\repos\Code Generator Full Project\Database_Creator\bin\Debug\Tables_Data_Layer.dll
+C:\Users\UNIX\source\repos\Code Generator Full Project\Database_Creator\bin\Debug\General Settings.pdb
+C:\Users\UNIX\source\repos\Code Generator Full Project\Database_Creator\bin\Debug\Tables_Logic_Layer.pdb
+C:\Users\UNIX\source\repos\Code Generator Full Project\Database_Creator\bin\Debug\Tables_Data_Layer.pdb
+C:\Users\UNIX\source\repos\Code Generator Full Project\Database_Creator\obj\Debug\Database_Creator.csproj.AssemblyReference.cache
+C:\Users\UNIX\source\repos\Code Generator Full Project\Database_Creator\obj\Debug\Database_Creator.csproj.CoreCompileInputs.cache
+C:\Users\UNIX\source\repos\Code Generator Full Project\Database_Creator\obj\Debug\Database_Creator.csproj.CopyComplete
+C:\Users\UNIX\source\repos\Code Generator Full Project\Database_Creator\obj\Debug\Database_Creator.dll
+C:\Users\UNIX\source\repos\Code Generator Full Project\Database_Creator\obj\Debug\Database_Creator.pdb

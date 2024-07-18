@@ -46,7 +46,12 @@ namespace Database_Creator
         }
         static string _ColumnDataType(clsColumn column)
         {
-            if(column.CHARACTER_MAXIMUM_LENGTH!=0)
+            if (column.CHARACTER_MAXIMUM_LENGTH == -1 && column.DATA_TYPE.Contains("varchar"))
+            {
+                return $"{column.DATA_TYPE}(MAX)";
+            }
+
+            if (column.CHARACTER_MAXIMUM_LENGTH!=0)
             {
                 return $"{column.DATA_TYPE}({column.CHARACTER_MAXIMUM_LENGTH})";
             }
@@ -113,7 +118,7 @@ namespace Database_Creator
                 }
                 return true;
             }
-            catch
+            catch (Exception dd)
             {
                 return false;
             }

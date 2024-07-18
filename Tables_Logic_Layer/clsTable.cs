@@ -11,6 +11,7 @@ namespace Tables_Logic_Layer
 {
     public class clsTable
     {
+
         public string TableName { set; get; }
         public BindingList<clsColumn> Columns = new BindingList<clsColumn>();
 

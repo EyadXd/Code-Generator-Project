@@ -26,6 +26,10 @@ namespace Tables_Logic_Layer
         {
             return DataBaseDataAccess.IsExists(dataBaseName);
         }
+        static public bool DeleteDataBase(string Databasename)
+        {
+            return DataBaseDataAccess.DeleteDataBase(Databasename);
+        }
 
     }
 }

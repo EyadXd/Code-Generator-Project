@@ -344,5 +344,35 @@ namespace Tables_Data_Layer
             }
             return IsFound;
         }
+
+        static public bool DeleteDataBase(string DatabaseName)
+        {
+
+            string connectionString = $"Server={clsConnectionInfos.ServerName};User Id={clsConnectionInfos.UserID};Password={clsConnectionInfos.Password};Database=master;";
+
+            bool IsFound = false;
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(connectionString))
+                {
+                    connection.Open();
+                    string query = @"
+                    DROP DATABASE @Name;
+                                   ";
+                    using (SqlCommand command = new SqlCommand(query, connection))
+                    {
+                        command.Parameters.AddWithValue("@Name", DatabaseName);
+
+                        IsFound = command.ExecuteNonQuery() != 0 ? false : true;
+                    }
+                }
+            }
+            catch
+            {
+
+            }
+            return IsFound;
+
+        }
     }
 }

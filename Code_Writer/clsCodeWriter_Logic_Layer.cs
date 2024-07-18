@@ -298,7 +298,7 @@ namespace Code_Writer
             }}
             else
             {{
-                return new cls{table.TableName}();
+                return null;
             }}
         }}";
 
@@ -325,7 +325,9 @@ namespace Code_Writer
 
             Code = $@" private int _AddNew()
         {{
-           return clsData_{table.TableName}.AddNew({SendVarsToAddNew});
+            this.{PrimaryColumnName} =clsData_{table.TableName}.AddNew({SendVarsToAddNew}); 
+
+           return this.{PrimaryColumnName};
         }}";
 
             return Code;
@@ -367,8 +369,8 @@ namespace Code_Writer
             switch (Mode)
             {{
                 case enMode.AddNewMode:
-                    this.{PrimaryKeyColumn.COLUMN_NAME} = _AddNew();
-                   if (this.{PrimaryKeyColumn.COLUMN_NAME}!=-1)
+                    
+                   if (_AddNew()!=-1)
                    {{
                         this.Mode = enMode.UpdateMode;
                         return true;
