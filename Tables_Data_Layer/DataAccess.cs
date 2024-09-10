@@ -212,47 +212,55 @@ namespace Tables_Data_Layer
         {
             using (SqlConnection connection = new SqlConnection(clsConnectionInfos.ConnectionString()))
             {
-                string query = $@"
-                    SELECT 
-                        c.COLUMN_NAME,
-                        c.DATA_TYPE,
-                        c.CHARACTER_MAXIMUM_LENGTH,
-                        CASE 
-                            WHEN c.IS_NULLABLE = 'YES' THEN 1 
-                            ELSE 0 
-                        END AS IsNullable,
-                        COLUMNPROPERTY(OBJECT_ID(c.TABLE_SCHEMA + '.' + c.TABLE_NAME), c.COLUMN_NAME, 'IsIdentity') AS IsIdentity,
-                        CASE 
-                            WHEN pk.COLUMN_NAME IS NOT NULL THEN 1 
-                            ELSE 0 
-                        END AS IsPrimaryKey
-                    FROM 
-                        {clsConnectionInfos.DataBaseName}.INFORMATION_SCHEMA.COLUMNS c
-                    LEFT JOIN 
-                        (
-                            SELECT 
-                                ku.TABLE_SCHEMA,
-                                ku.TABLE_NAME,
-                                ku.COLUMN_NAME
-                            FROM 
-                                {clsConnectionInfos.DataBaseName}.INFORMATION_SCHEMA.TABLE_CONSTRAINTS tc
-                            INNER JOIN 
-                                {clsConnectionInfos.DataBaseName}.INFORMATION_SCHEMA.KEY_COLUMN_USAGE ku
-                            ON 
-                                tc.TABLE_NAME = ku.TABLE_NAME
-                                AND tc.TABLE_SCHEMA = ku.TABLE_SCHEMA
-                                AND tc.CONSTRAINT_NAME = ku.CONSTRAINT_NAME
-                            WHERE 
-                                tc.CONSTRAINT_TYPE = 'PRIMARY KEY'
-                        ) pk
-                    ON 
-                        c.TABLE_SCHEMA = pk.TABLE_SCHEMA
-                        AND c.TABLE_NAME = pk.TABLE_NAME
-                        AND c.COLUMN_NAME = pk.COLUMN_NAME
-                    WHERE 
-                        c.TABLE_NAME = @TableName
-                    ORDER BY 
-                        IsPrimaryKey DESC;";
+                string query = $@"SELECT 
+    c.COLUMN_NAME,
+    c.DATA_TYPE,
+    c.CHARACTER_MAXIMUM_LENGTH,
+    CASE 
+        WHEN c.IS_NULLABLE = 'YES' THEN 1 
+        ELSE 0 
+    END AS IsNullable,
+    COLUMNPROPERTY(OBJECT_ID(c.TABLE_SCHEMA + '.' + c.TABLE_NAME), c.COLUMN_NAME, 'IsIdentity') AS IsIdentity,
+    CASE 
+        WHEN pk.COLUMN_NAME IS NOT NULL THEN 1 
+        ELSE 0 
+    END AS IsPrimaryKey,
+    ep.value AS COLUMN_DESCRIPTION -- العمود الجديد للوصف
+FROM 
+    {clsConnectionInfos.DataBaseName}.INFORMATION_SCHEMA.COLUMNS c
+LEFT JOIN 
+    (
+        SELECT 
+            ku.TABLE_SCHEMA,
+            ku.TABLE_NAME,
+            ku.COLUMN_NAME
+        FROM 
+            {clsConnectionInfos.DataBaseName}.INFORMATION_SCHEMA.TABLE_CONSTRAINTS tc
+        INNER JOIN 
+            {clsConnectionInfos.DataBaseName}.INFORMATION_SCHEMA.KEY_COLUMN_USAGE ku
+        ON 
+            tc.TABLE_NAME = ku.TABLE_NAME
+            AND tc.TABLE_SCHEMA = ku.TABLE_SCHEMA
+            AND tc.CONSTRAINT_NAME = ku.CONSTRAINT_NAME
+        WHERE 
+            tc.CONSTRAINT_TYPE = 'PRIMARY KEY'
+    ) pk
+    ON 
+        c.TABLE_SCHEMA = pk.TABLE_SCHEMA
+        AND c.TABLE_NAME = pk.TABLE_NAME
+        AND c.COLUMN_NAME = pk.COLUMN_NAME
+LEFT JOIN 
+    sys.extended_properties ep
+    ON 
+        ep.major_id = OBJECT_ID(c.TABLE_SCHEMA + '.' + c.TABLE_NAME)
+        AND ep.minor_id = COLUMNPROPERTY(OBJECT_ID(c.TABLE_SCHEMA + '.' + c.TABLE_NAME), c.COLUMN_NAME, 'ColumnID')
+        AND ep.name = 'MS_Description' -- التأكد من أن الخاصية هي وصف العمود
+WHERE 
+    c.TABLE_NAME = '{TableName}' -- تصحيح الاسم بإضافة الأقواس الأحادية
+ORDER BY 
+    IsPrimaryKey DESC;
+
+";
 
                 SqlCommand command = new SqlCommand(query, connection);
                
@@ -267,7 +275,7 @@ namespace Tables_Data_Layer
                         SqlDataReader reader = command.ExecuteReader();
                         table.Load(reader);                
                     }
-                    catch 
+                    catch (Exception e)
                     {
 
                     }

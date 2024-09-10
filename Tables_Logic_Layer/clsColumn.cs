@@ -15,7 +15,7 @@ namespace Tables_Logic_Layer
         public bool IsNullable { set; get; }
         public bool IsIdentity { set; get; }
         public bool IsPrimaryKey { set; get; }
-
+        public string COLUMN_DESCRIPTION { set; get; }
 
         //Column Code Writting Options
         public bool Find_By { set; get; } = false;
@@ -23,7 +23,7 @@ namespace Tables_Logic_Layer
         public bool IsExists_By { set; get; }= false;
 
 
-        public clsColumn(string COLUMNNAME, string DATATYPE, int CHARACTERMAXIMUMLENGTH, bool isNullable, bool isIdentity, bool isPrimaryKey, bool findBy, bool deleteBy, bool isExistsBy)
+        public clsColumn(string COLUMNNAME, string DATATYPE, int CHARACTERMAXIMUMLENGTH, bool isNullable, bool isIdentity, bool isPrimaryKey,string COLUMNDESCRIPTION, bool findBy, bool deleteBy, bool isExistsBy)
         {
             COLUMN_NAME = COLUMNNAME;
             DATA_TYPE = DATATYPE;
@@ -34,6 +34,7 @@ namespace Tables_Logic_Layer
             Find_By = findBy;
             Delete_By = deleteBy;
             IsExists_By = isExistsBy;
+            COLUMN_DESCRIPTION = COLUMNDESCRIPTION;
         }
 
         static public DataTable GetColumnsNames(string TableName)
@@ -54,7 +55,7 @@ namespace Tables_Logic_Layer
 
             foreach(DataRow Row in table.Rows)
             {
-                Columns.Add(new clsColumn(Convert.ToString(Row["COLUMN_NAME"]), Convert.ToString(Row["DATA_TYPE"]), Convert.ToInt32(Row["CHARACTER_MAXIMUM_LENGTH"] == DBNull.Value ? 0 : Row["CHARACTER_MAXIMUM_LENGTH"]), Convert.ToBoolean(Row["IsNullable"]), Convert.ToBoolean(Row["IsIdentity"]), Convert.ToBoolean(Row["IsPrimaryKey"]), false, false, false));
+                Columns.Add(new clsColumn(Convert.ToString(Row["COLUMN_NAME"]), Convert.ToString(Row["DATA_TYPE"]), Convert.ToInt32(Row["CHARACTER_MAXIMUM_LENGTH"] == DBNull.Value ? 0 : Row["CHARACTER_MAXIMUM_LENGTH"]), Convert.ToBoolean(Row["IsNullable"]), Convert.ToBoolean(Row["IsIdentity"]), Convert.ToBoolean(Row["IsPrimaryKey"]),Convert.ToString(Row["COLUMN_DESCRIPTION"]), false, false, false));
             }
 
             return Columns;

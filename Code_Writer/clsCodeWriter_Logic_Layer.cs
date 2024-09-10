@@ -61,6 +61,8 @@ namespace Code_Writer
             {
                 string DataType = clsDataManagement.Convert_DataType_From_SQL_To_Csharp(column.DATA_TYPE);
 
+                if (!String.IsNullOrEmpty(column.COLUMN_DESCRIPTION))
+                    Code += _Write_Comment($"{column.COLUMN_DESCRIPTION}");
 
                 if(!column.IsPrimaryKey)
                 Code += $@"public {DataType} {column.COLUMN_NAME} {{ set; get; }}

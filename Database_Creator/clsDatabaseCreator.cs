@@ -13,7 +13,7 @@ namespace Database_Creator
     {
         static string _ColumnIdentity(clsColumn column)
         {
-            if(column.IsIdentity)
+            if (column.IsIdentity)
             {
                 return "IDENTITY(1,1)";
             }
@@ -24,7 +24,7 @@ namespace Database_Creator
         }
         static string _ColumnNullable(clsColumn column)
         {
-            if(column.IsNullable)
+            if (column.IsNullable)
             {
                 return "Null";
             }
@@ -35,7 +35,7 @@ namespace Database_Creator
         }
         static string _ColumnPrimaryKey(clsColumn column)
         {
-            if(column.IsPrimaryKey)
+            if (column.IsPrimaryKey)
             {
                 return "Primary Key";
             }
@@ -51,7 +51,7 @@ namespace Database_Creator
                 return $"{column.DATA_TYPE}(MAX)";
             }
 
-            if (column.CHARACTER_MAXIMUM_LENGTH!=0)
+            if (column.CHARACTER_MAXIMUM_LENGTH != 0)
             {
                 return $"{column.DATA_TYPE}({column.CHARACTER_MAXIMUM_LENGTH})";
             }
@@ -64,22 +64,44 @@ namespace Database_Creator
         {
             string Qeuery = "";
 
-            foreach(clsColumn Column in Table.Columns)
+            foreach (clsColumn Column in Table.Columns)
             {
                 Qeuery += $@"{Column.COLUMN_NAME} {_ColumnDataType(Column)} {_ColumnPrimaryKey(Column)} {_ColumnNullable(Column)} {_ColumnIdentity(Column)},";
             }
 
             return Qeuery.TrimEnd(',');
         }
+        static private string _Add_Column_Description_Query(clsTable Table)
+        {
+            string descriptionQuery = "";
+
+            foreach (clsColumn Column in Table.Columns)
+            {
+                if (!string.IsNullOrEmpty(Column.COLUMN_DESCRIPTION))
+                {
+                    descriptionQuery += $@"
+            EXEC sp_addextendedproperty 
+                @name = N'MS_Description', 
+                @value = N'{Column.COLUMN_DESCRIPTION}', 
+                @level0type = N'SCHEMA', @level0name = 'dbo', 
+                @level1type = N'TABLE',  @level1name = '{Table.TableName}', 
+                @level2type = N'COLUMN', @level2name = '{Column.COLUMN_NAME}';
+            ";
+                }
+            }
+
+            return descriptionQuery;
+        }
         static private bool _Create_Table(clsTable Table)
         {
-            string connectionString =clsConnectionInfos.ConnectionString();
+            string connectionString = clsConnectionInfos.ConnectionString();
             string ColumnsQeuery = _Create_Columns_Querey(Table);
+            string AddColumnDescriptionQuery = _Add_Column_Description_Query(Table);
 
             string createTableQuery = $@"
-            CREATE TABLE [{Table.TableName}] (
-              {ColumnsQeuery}
-            )";
+    CREATE TABLE [{Table.TableName}] (
+      {ColumnsQeuery}
+    )";
 
             try
             {
@@ -87,18 +109,31 @@ namespace Database_Creator
                 {
                     connection.Open();
 
-                    using (SqlCommand command = new SqlCommand(createTableQuery, connection))
+                    // تنفيذ استعلام إنشاء الجدول
+                    using (SqlCommand createTableCommand = new SqlCommand(createTableQuery, connection))
                     {
-                        command.ExecuteNonQuery();
+                        createTableCommand.ExecuteNonQuery();
+                    }
+
+                    // تنفيذ استعلامات إضافة الأوصاف بشكل منفصل
+                    if (!string.IsNullOrEmpty(AddColumnDescriptionQuery))
+                    {
+                        using (SqlCommand descriptionCommand = new SqlCommand(AddColumnDescriptionQuery, connection))
+                        {
+                            descriptionCommand.ExecuteNonQuery();
+                        }
                     }
                 }
+
                 return true;
             }
             catch (Exception e)
             {
+                // يمكن التعامل مع الأخطاء هنا أو تسجيلها إذا لزم الأمر
                 return false;
             }
         }
+
         static private bool _Create_DataBase(clsDataBase DataBase)
         {
             string connectionString = $"Server={clsConnectionInfos.ServerName};User ID={clsConnectionInfos.UserID};Password={clsConnectionInfos.Password};";
@@ -128,11 +163,11 @@ namespace Database_Creator
         static public bool Create(clsDataBase dataBase)
         {
 
-            if(_Create_DataBase(dataBase))
+            if (_Create_DataBase(dataBase))
             {
-                foreach(clsTable Table in dataBase.Tables)
+                foreach (clsTable Table in dataBase.Tables)
                 {
-                    if(!_Create_Table(Table))
+                    if (!_Create_Table(Table))
                     {
                         return false;
                     }
