@@ -14,9 +14,10 @@ namespace Code_Writer
         {
             return $"/*         {Value}         */";
         }
-        private static string _Write_NameSpaces(clsTable table)
+        private static string _Write_NameSpaces(clsTable table,string NameSpacename)
         {
-            string NameSpace = $"{table.TableName}_DataAccess";
+            //If User Let It Empty So Use Defult , Else Use His Namespace
+            string NameSpace = String.IsNullOrEmpty(NameSpacename)? $"{table.TableName}_DataAccess":NameSpacename;
 
             string Code = $@"using System;
                              using System.Data.SqlClient;
@@ -546,11 +547,11 @@ namespace Code_Writer
         
 
         //Final Method 
-        public static string Write_Code(clsTable table)
+        public static string Write_Code(clsTable table,string NameSpacename)
         {
             string Code = "";
 
-            Code += _Write_NameSpaces(table);
+            Code += _Write_NameSpaces(table,NameSpacename);
             Code += _Write_ClassDefinition(table);
 
             if (table.AddNew)

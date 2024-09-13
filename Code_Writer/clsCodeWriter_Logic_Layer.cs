@@ -14,9 +14,13 @@ namespace Code_Writer
         {
             return $"/*         {Value}         */";
         }
-        static private string _Write_Namespaces(clsTable table)
+        static private string _Write_Namespaces(clsTable table,string DataAccessNamespace,string BussinessNamespace)
         {
             string Code = "";
+
+            //if empty Use Defualt
+            BussinessNamespace = String.IsNullOrEmpty(BussinessNamespace) ? $"{table.TableName}_LogicLayer" : BussinessNamespace;
+            DataAccessNamespace = String.IsNullOrEmpty(DataAccessNamespace) ? $"{table.TableName}_DataAccess" : DataAccessNamespace;
 
             Code = $@"using System;
                      using System.Collections.Generic;
@@ -24,9 +28,9 @@ namespace Code_Writer
                      using System.Text;
                      using System.Threading.Tasks;
                      using System.Data;
-                     using {table.TableName}_DataAccess;
+                     using {DataAccessNamespace};
                      
-                     namespace {table.TableName}_LogicLayer
+                     namespace {BussinessNamespace}
                      {{
                          ";
 
@@ -395,11 +399,11 @@ namespace Code_Writer
 
 
         //Final method
-        public static string Write_Code(clsTable table)
+        public static string Write_Code(clsTable table,string DataAccessNamespace, string BussinessNamespace)
         {
             string Code = "";
 
-            Code += _Write_Namespaces(table);
+            Code += _Write_Namespaces(table, DataAccessNamespace, BussinessNamespace);
             Code += _Write_ClassDefintion(table);
 
             Code += Write_Properties(table);
