@@ -64,6 +64,9 @@ namespace Code_Writer
             foreach (clsColumn column in table.Columns)
             {
                 string DataType = clsDataManagement.Convert_DataType_From_SQL_To_Csharp(column.DATA_TYPE);
+                //Nullable vars
+                if (column.IsNullable)
+                    DataType += "?";
 
                 if (!String.IsNullOrEmpty(column.COLUMN_DESCRIPTION))
                     Code += _Write_Comment($"{column.COLUMN_DESCRIPTION}");
@@ -72,7 +75,7 @@ namespace Code_Writer
                 Code += $@"public {DataType} {column.COLUMN_NAME} {{ set; get; }}
                           ";
                 else
-                    Code += $@"public {DataType} {column.COLUMN_NAME} {{ private set; get; }}
+                    Code += $@"public {DataType} {column.COLUMN_NAME} {{ protected set; get; }}
                           ";
             }
 
@@ -114,6 +117,11 @@ namespace Code_Writer
             foreach (clsColumn Column in table.Columns)
             {
                 string DataType = clsDataManagement.Convert_DataType_From_SQL_To_Csharp(Column.DATA_TYPE);
+
+                //Nullable vars
+                if (Column.IsNullable)
+                    DataType += "?";
+
                 Code += $"{DataType} {Column.COLUMN_NAME},";
             }
             return Code.TrimEnd(',');
@@ -171,8 +179,13 @@ namespace Code_Writer
         static public string Write_DeleteBy(clsTable table,string DeleteByColumnName)
         {
             string Code = "";
-            string DataType = clsDataManagement.Convert_DataType_From_SQL_To_Csharp(table.Columns.First(c => c.COLUMN_NAME == DeleteByColumnName).DATA_TYPE);
-            
+            clsColumn DeleteByColumn = table.Columns.First(c => c.COLUMN_NAME == DeleteByColumnName);
+            string DataType = clsDataManagement.Convert_DataType_From_SQL_To_Csharp(DeleteByColumn.DATA_TYPE);
+
+            //Nullable vars
+            if (DeleteByColumn.IsNullable)
+                DataType += "?";
+
             Code = $@"static public int DeleteBy{DeleteByColumnName}({DataType} {DeleteByColumnName})
                      {{
                          return clsData_{table.TableName}.DeleteBy{DeleteByColumnName}({DeleteByColumnName});
@@ -200,7 +213,13 @@ namespace Code_Writer
         static public string Write_IsExistsBy(clsTable table, string IsExitsByColumnName)
         {
             string Code = "";
-            string DataType = clsDataManagement.Convert_DataType_From_SQL_To_Csharp(table.Columns.First(c => c.COLUMN_NAME == IsExitsByColumnName).DATA_TYPE);
+            clsColumn IsExistsByColumn = table.Columns.First(c => c.COLUMN_NAME == IsExitsByColumnName);
+
+            string DataType = clsDataManagement.Convert_DataType_From_SQL_To_Csharp(IsExistsByColumn.DATA_TYPE);
+
+            //Nullable vars
+            if (IsExistsByColumn.IsNullable)
+                DataType += "?";
 
             Code = $@"static public bool IsExistsBy{IsExitsByColumnName}({DataType} {IsExitsByColumnName})
         {{
@@ -255,6 +274,11 @@ namespace Code_Writer
                 if(Column.COLUMN_NAME != FindByColumnName)
                 {
                     string DataType = clsDataManagement.Convert_DataType_From_SQL_To_Csharp(Column.DATA_TYPE);
+
+                    //Nullable vars
+                    if (Column.IsNullable)
+                        DataType += "?";
+
                     string DefValue = clsDataManagement.GetDefaultValue(Column.DATA_TYPE);
                     
                     Code += $@"{DataType} {(Column.COLUMN_NAME.ToLower())} = {DefValue};

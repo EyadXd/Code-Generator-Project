@@ -41,6 +41,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="clsCodeWriter_AdditionalClasses.cs" />
     <Compile Include="clsCodeWriter_DataAccess_Layer.cs" />
     <Compile Include="clsCodeWriter_Logic_Layer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

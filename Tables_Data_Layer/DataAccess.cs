@@ -15,7 +15,7 @@ namespace Tables_Data_Layer
         {
             using (SqlConnection connection = new SqlConnection(clsConnectionInfos.ConnectionString()))
             {
-                string query = $@"USE {clsConnectionInfos.DataBaseName}
+                string query = $@"USE [{clsConnectionInfos.DataBaseName}]
                           SELECT table_name AS TableName
                           FROM information_schema.tables
                           WHERE table_type = 'BASE TABLE'
@@ -47,10 +47,10 @@ namespace Tables_Data_Layer
         {
             SqlConnection connection = new SqlConnection(clsConnectionInfos.ConnectionString());
 
-            string Querey = $@"Use {clsConnectionInfos.DataBaseName}
+            string Querey = $@"Use [{clsConnectionInfos.DataBaseName}]
                               SELECT 1
                               FROM information_schema.tables
-                              WHERE TABLE_CATALOG = @DataBaseName
+                              WHERE TABLE_CATALOG = [@DataBaseName]
                                   AND table_type = 'BASE TABLE'
                               	AND table_name <> 'sysdiagrams'
                               	AND table_name = @TableName
@@ -89,7 +89,7 @@ namespace Tables_Data_Layer
             using (SqlConnection connection = new SqlConnection(clsConnectionInfos.ConnectionString()))
             {
                 string query = $@"
-            Use {clsConnectionInfos.DataBaseName}
+            Use [{clsConnectionInfos.DataBaseName}]
             SELECT 
                 c.COLUMN_NAME
             FROM 
@@ -149,7 +149,7 @@ namespace Tables_Data_Layer
         {
             SqlConnection connection = new SqlConnection(clsConnectionInfos.ConnectionString());
 
-            string Querey = $@"Use {clsConnectionInfos.DataBaseName}
+            string Querey = $@"Use [{clsConnectionInfos.DataBaseName}]
                            	Select 
                                1              
                            FROM 
@@ -227,7 +227,7 @@ namespace Tables_Data_Layer
     END AS IsPrimaryKey,
     ep.value AS COLUMN_DESCRIPTION -- العمود الجديد للوصف
 FROM 
-    {clsConnectionInfos.DataBaseName}.INFORMATION_SCHEMA.COLUMNS c
+    [{clsConnectionInfos.DataBaseName}].INFORMATION_SCHEMA.COLUMNS c
 LEFT JOIN 
     (
         SELECT 
@@ -235,9 +235,9 @@ LEFT JOIN
             ku.TABLE_NAME,
             ku.COLUMN_NAME
         FROM 
-            {clsConnectionInfos.DataBaseName}.INFORMATION_SCHEMA.TABLE_CONSTRAINTS tc
+            [{clsConnectionInfos.DataBaseName}].INFORMATION_SCHEMA.TABLE_CONSTRAINTS tc
         INNER JOIN 
-            {clsConnectionInfos.DataBaseName}.INFORMATION_SCHEMA.KEY_COLUMN_USAGE ku
+            [{clsConnectionInfos.DataBaseName}].INFORMATION_SCHEMA.KEY_COLUMN_USAGE ku
         ON 
             tc.TABLE_NAME = ku.TABLE_NAME
             AND tc.TABLE_SCHEMA = ku.TABLE_SCHEMA

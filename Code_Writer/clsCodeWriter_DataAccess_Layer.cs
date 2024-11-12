@@ -106,6 +106,12 @@ namespace Code_Writer
                 if (!Column.IsPrimaryKey)
                 {
                     string ColumnType = clsDataManagement.Convert_DataType_From_SQL_To_Csharp(Column.DATA_TYPE);
+                  
+                    //Nullable vars
+                    if (Column.IsNullable)
+                        ColumnType += "?";
+
+
                     Code += $@"{ColumnType} {Column.COLUMN_NAME},";
                 }
             }
@@ -144,7 +150,7 @@ namespace Code_Writer
 
             string Code = "";
             string VarHeadersValues = _Write_Header_AddNew(table);
-            string ConnectionString = clsConnectionInfos.ConnectionString();
+            string ConnectionString = "clsConnectionString.ConnectionString";
             string AddNewQeurey = _Write_Querey_AddNew(table);
             string ParametarizedQeurey = _Write_ParametarizedQeuery_AddNew(table);
 
@@ -153,7 +159,7 @@ namespace Code_Writer
             {{
                 int id = -1;
 
-                string connectionString = ""{ConnectionString}"";
+                string connectionString = {ConnectionString};
                 string query = @""{AddNewQeurey}"";
 
             try
@@ -184,7 +190,7 @@ namespace Code_Writer
             return Code;
         }
 
-
+        
         // List All Columns
         public static string Write_ListRecords(clsTable table)
         {
@@ -198,12 +204,12 @@ namespace Code_Writer
             }
 
             string Code = "";
-            string ConnectionString = clsConnectionInfos.ConnectionString();
+            string ConnectionString = "clsConnectionString.ConnectionString";
 
             Code = $@"static public DataTable ListAll_{table.TableName}()
             {{
             DataTable dt = new DataTable();
-            string connectionString = ""{ConnectionString}"";
+            string connectionString = {ConnectionString};
             string query = ""SELECT * FROM {table.TableName}"";
 
             try
@@ -223,7 +229,7 @@ namespace Code_Writer
                     }}
                 }}
             }}
-            catch
+            catch (Exception ex)
             {{
 
             }}
@@ -246,6 +252,10 @@ namespace Code_Writer
             foreach (clsColumn Column in table.Columns)
             {
                 string DataType = clsDataManagement.Convert_DataType_From_SQL_To_Csharp(Column.DATA_TYPE);
+
+                //Nullable vars
+                if (Column.IsNullable)
+                    DataType += "?";
 
                 if (Column.COLUMN_NAME != FindByColumnName)
                 {
@@ -306,14 +316,14 @@ namespace Code_Writer
 
             string Code = "";
             string Header = _Write_Header_Find(table, FindByColumnName);
-            string ConnectionString = clsConnectionInfos.ConnectionString();
+            string ConnectionString = "clsConnectionString.ConnectionString";
             string Reader = Write_Reader_Find(table, FindByColumnName);
 
 
             Code = $@" static public bool FindBy{FindByColumnName}({Header})
         {{
             bool isFound = false;
-            string connectionPath = ""{ConnectionString}""; 
+            string connectionPath = {ConnectionString}; 
             string query = ""SELECT * FROM {table.TableName} WHERE {table.TableName}.{FindByColumnName} = @{FindByColumnName}"";
 
             try
@@ -337,7 +347,7 @@ namespace Code_Writer
                     }}
                 }}
             }}
-            catch
+            catch (Exception ex)
             {{
               
             }}
@@ -401,7 +411,11 @@ namespace Code_Writer
             {
                 string DataType = clsDataManagement.Convert_DataType_From_SQL_To_Csharp(Column.DATA_TYPE);
 
-                if(Column.COLUMN_NAME != PrimaryColumn.COLUMN_NAME)
+                //Nullable vars
+                if (Column.IsNullable)
+                    DataType += "?";
+
+                if (Column.COLUMN_NAME != PrimaryColumn.COLUMN_NAME)
                 {
                     Code += $@"{DataType} {Column.COLUMN_NAME},";
                 }
@@ -422,13 +436,13 @@ namespace Code_Writer
 
             string Code = "";
             string Header = Write_Header_Update(table);
-            string ConnectionString = clsConnectionInfos.ConnectionString();
+            string ConnectionString = "clsConnectionString.ConnectionString";
             string Qeuery = Write_Qeuery_Update(table);
             string Parameters = _Write_ParametarizedQeuery_Update(table);
 
             Code = $@" static public int Update({Header})
         {{
-            string connectionString = ""{ConnectionString}"";
+            string connectionString = {ConnectionString};
             string query = @""
                               {Qeuery}
                              "";
@@ -447,7 +461,7 @@ namespace Code_Writer
                     }}
                 }}
             }}
-            catch 
+            catch (Exception ex)
             {{
                 return 0;
             }}
@@ -478,13 +492,19 @@ namespace Code_Writer
             }
 
             string Code = "";
-            string ColumnDataType = clsDataManagement.Convert_DataType_From_SQL_To_Csharp(table.Columns.First(c => c.COLUMN_NAME == DeleteByColumnName).DATA_TYPE);
-            string ConnectionString = clsConnectionInfos.ConnectionString();
+            clsColumn DeleteByColumn = table.Columns.First(c => c.COLUMN_NAME == DeleteByColumnName);
+            string ColumnDataType = clsDataManagement.Convert_DataType_From_SQL_To_Csharp(DeleteByColumn.DATA_TYPE);
+          
+            //Nullable vars
+            if (DeleteByColumn.IsNullable)
+                ColumnDataType += "?";
+
+            string ConnectionString = "clsConnectionString.ConnectionString";
 
 
             Code = $@" static public int DeleteBy{DeleteByColumnName}({ColumnDataType} {DeleteByColumnName})
         {{
-            string connectionString = ""{ConnectionString}"";
+            string connectionString = {ConnectionString};
             string query = @""DELETE FROM {table.TableName} WHERE {DeleteByColumnName} = @{DeleteByColumnName}"";
 
             try
@@ -500,7 +520,7 @@ namespace Code_Writer
                 
               }}
             }}
-            catch
+            catch (Exception ex)
             {{
      
                 return 0;
@@ -515,12 +535,18 @@ namespace Code_Writer
         public static string Write_IsExists(clsTable table , string IsExistsByColumnName)
         {
             string Code = "";
-            string DataType = clsDataManagement.Convert_DataType_From_SQL_To_Csharp(table.Columns.First(c => c.COLUMN_NAME == IsExistsByColumnName).DATA_TYPE);
-            string ConnectionString = clsConnectionInfos.ConnectionString();
+            clsColumn IsExistsByColumn = table.Columns.First(c => c.COLUMN_NAME == IsExistsByColumnName);
+            string DataType = clsDataManagement.Convert_DataType_From_SQL_To_Csharp(IsExistsByColumn.DATA_TYPE);
+
+            //Nullable vars
+            if (IsExistsByColumn.IsNullable)
+                DataType += "?";
+
+            string ConnectionString = "clsConnectionString.ConnectionString";
 
             Code += $@"static public bool IsExistsBy{IsExistsByColumnName}({DataType} {IsExistsByColumnName})
 {{
-    string connectionString = ""{ConnectionString}"";
+    string connectionString = {ConnectionString};
     string query = ""SELECT 1 FROM {table.TableName} WHERE {IsExistsByColumnName} = @{IsExistsByColumnName}"";
 
     try
@@ -535,7 +561,7 @@ namespace Code_Writer
             return result != null;
         }}
     }}
-    catch 
+    catch (Exception ex)
     {{
         return false;
     }}
