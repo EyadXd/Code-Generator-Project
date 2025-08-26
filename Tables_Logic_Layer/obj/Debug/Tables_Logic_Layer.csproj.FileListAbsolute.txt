@@ -20,3 +20,14 @@ C:\Users\UNIX\source\repos\Code Generator Full Project\Tables_Logic_Layer\obj\De
 C:\Users\UNIX\source\repos\Code Generator Full Project\Tables_Logic_Layer\obj\Debug\Tables_Logic_Layer.csproj.CopyComplete
 C:\Users\UNIX\source\repos\Code Generator Full Project\Tables_Logic_Layer\obj\Debug\Tables_Logic_Layer.dll
 C:\Users\UNIX\source\repos\Code Generator Full Project\Tables_Logic_Layer\obj\Debug\Tables_Logic_Layer.pdb
+C:\Users\Eyad\source\repos\Code Generator Full Project\Tables_Logic_Layer\bin\Debug\Tables_Logic_Layer.dll
+C:\Users\Eyad\source\repos\Code Generator Full Project\Tables_Logic_Layer\bin\Debug\Tables_Logic_Layer.pdb
+C:\Users\Eyad\source\repos\Code Generator Full Project\Tables_Logic_Layer\bin\Debug\Tables_Data_Layer.dll
+C:\Users\Eyad\source\repos\Code Generator Full Project\Tables_Logic_Layer\bin\Debug\General Settings.dll
+C:\Users\Eyad\source\repos\Code Generator Full Project\Tables_Logic_Layer\bin\Debug\Tables_Data_Layer.pdb
+C:\Users\Eyad\source\repos\Code Generator Full Project\Tables_Logic_Layer\bin\Debug\General Settings.pdb
+C:\Users\Eyad\source\repos\Code Generator Full Project\Tables_Logic_Layer\obj\Debug\Tables_Logic_Layer.csproj.AssemblyReference.cache
+C:\Users\Eyad\source\repos\Code Generator Full Project\Tables_Logic_Layer\obj\Debug\Tables_Logic_Layer.csproj.CoreCompileInputs.cache
+C:\Users\Eyad\source\repos\Code Generator Full Project\Tables_Logic_Layer\obj\Debug\Tables_L.94FC08D3.Up2Date
+C:\Users\Eyad\source\repos\Code Generator Full Project\Tables_Logic_Layer\obj\Debug\Tables_Logic_Layer.dll
+C:\Users\Eyad\source\repos\Code Generator Full Project\Tables_Logic_Layer\obj\Debug\Tables_Logic_Layer.pdb

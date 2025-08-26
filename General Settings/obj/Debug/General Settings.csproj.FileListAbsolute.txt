@@ -4,3 +4,9 @@ C:\Users\UNIX\source\repos\General Settings\obj\Debug\General Settings.csproj.As
 C:\Users\UNIX\source\repos\General Settings\obj\Debug\General Settings.csproj.CoreCompileInputs.cache
 C:\Users\UNIX\source\repos\General Settings\obj\Debug\General Settings.dll
 C:\Users\UNIX\source\repos\General Settings\obj\Debug\General Settings.pdb
+C:\Users\Eyad\source\repos\Code Generator Full Project\General Settings\bin\Debug\General Settings.dll
+C:\Users\Eyad\source\repos\Code Generator Full Project\General Settings\bin\Debug\General Settings.pdb
+C:\Users\Eyad\source\repos\Code Generator Full Project\General Settings\obj\Debug\General Settings.csproj.AssemblyReference.cache
+C:\Users\Eyad\source\repos\Code Generator Full Project\General Settings\obj\Debug\General Settings.csproj.CoreCompileInputs.cache
+C:\Users\Eyad\source\repos\Code Generator Full Project\General Settings\obj\Debug\General Settings.dll
+C:\Users\Eyad\source\repos\Code Generator Full Project\General Settings\obj\Debug\General Settings.pdb
