@@ -1,0 +1,12 @@
+.vs/
+bin/
+obj/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+*.db
+*.db-shm
+*.db-wal
+*.cache
+*.log
